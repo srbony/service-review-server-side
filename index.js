@@ -29,6 +29,7 @@ async function run() {
     try {
         const serviceCollection = client.db('foodServices').collection('services');
         const reviewCollection = client.db('foodServices').collection('reviews');
+        const servicesCollection = client.db('foodServices').collection('services');
         app.get('/services', async (req, res) => {
             const query = {}
             const cursor = serviceCollection.find(query);
@@ -49,6 +50,12 @@ async function run() {
             const result = await reviewCollection.insertOne(reviewdata);
             res.send(result);
         });
+
+        app.post('/addServices', async (req, res) => {
+            const servicesData = req.body;
+            const result = await serviceCollection.insertOne(servicesData);
+            res.send(result);
+        })
 
         app.get('/reviews', async (req, res) => {
             console.log(req.query.email)
